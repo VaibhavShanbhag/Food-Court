@@ -1,6 +1,6 @@
 <?php
     if(isset($_POST['signup'])){
-        include('private/dbconnect.php');
+        include('../private/dbconnect.php');
 
         $name = $_POST['name'];
         $mobile_number = $_POST['mobile_number'];
@@ -110,7 +110,7 @@
         justify-content: center;
         align-items: center;
         height: 100vh;
-        background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(37, 32, 32, 0.8)), url("public/images/login-img.jpg");
+        background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(37, 32, 32, 0.8)), url("images/login-img.jpg");
         background-repeat: no-repeat;
         background-size: cover;
         box-sizing: border-box;

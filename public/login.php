@@ -1,7 +1,7 @@
 <?php
     session_start();
     if(isset($_POST['login'])){
-      include('private/dbconnect.php');
+      include('../private/dbconnect.php');
 
       $email = $_POST['email'];
       $password = $_POST['password'];
@@ -24,11 +24,11 @@
           $data = mysqli_fetch_assoc($run);
           $cust_id = $data['cust_id'];
 
-          $_SESSION['cust_id'] = $cust_id;
+          $_SESSION['custid'] = $cust_id;
 
           ?>
               <script>
-                window.open('public/index.html?cust_id<?php echo $cust_id ?>','_self');
+                window.open('index.php?custid=<?php echo $cust_id ?>','_self');
               </script>
           <?php
       }
@@ -76,7 +76,7 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(37, 32, 32, 0.8)), url("public/images/login-img.jpg");
+    background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(37, 32, 32, 0.8)), url("images/login-img.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     box-sizing: border-box;

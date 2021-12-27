@@ -45,7 +45,7 @@
             <a href="#step">Services</a>
             <a href="#review">review</a>
         </nav>
-        <a class="btn btn2" href="../login.php">login/sign up</a>
+        <a class="btn btn2" href="login.php">login/sign up</a>
     </header>
 
     <!-- header section ends -->
@@ -255,8 +255,21 @@
         <div class="box-container">
 
             <div class="box">
-                <img src="images/pic1.png" alt="">
-                <h3>john deo</h3>
+                <img src="images/rpic1.png" alt="">
+                <h3>Vishwajeet Tekale</h3>
+                <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                </div>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti delectus, ducimus facere quod
+                    ratione vel laboriosam? Est, maxime rem. Itaque.</p>
+            </div>
+            <div class="box">
+                <img src="images/rpic2.png" alt="">
+                <h3>Tanmay Nivaskar</h3>
                 <div class="stars">
                     <i class="fas fa-star"></i>
                     <i class="fas fa-star"></i>
@@ -268,27 +281,14 @@
                     ratione vel laboriosam? Est, maxime rem. Itaque.</p>
             </div>
             <div class="box">
-                <img src="images/pic2.png" alt="">
-                <h3>john deo</h3>
+                <img src="images/rpic3.png" alt="">
+                <h3>Vaibhav Shanbhag</h3>
                 <div class="stars">
                     <i class="fas fa-star"></i>
                     <i class="fas fa-star"></i>
                     <i class="fas fa-star"></i>
                     <i class="fas fa-star"></i>
-                    <i class="far fa-star"></i>
-                </div>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti delectus, ducimus facere quod
-                    ratione vel laboriosam? Est, maxime rem. Itaque.</p>
-            </div>
-            <div class="box">
-                <img src="images/pic3.png" alt="">
-                <h3>john deo</h3>
-                <div class="stars">
                     <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="far fa-star"></i>
                 </div>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti delectus, ducimus facere quod
                     ratione vel laboriosam? Est, maxime rem. Itaque.</p>
