@@ -58,24 +58,8 @@ section{
   overflow: hidden;
   z-index: 0;
   margin-top: 1rem;
-  transition: .3s linear;
+  /* transition: .3s linear; */
 }
-
-/* .btn::before{
-  content: '';
-  position: absolute;
-  top:0; right: 0;
-  width:0%;
-  height:100%;
-  background:var(--red);
- 
-  z-index: -1;
-} */
-
-/* .btn:hover::before{
-  width:100%;
-  left: 0;
-} */
 
 .btn:hover{
   color:#fff;
@@ -120,10 +104,6 @@ header .navbar a:hover{
 header .btn2{
   background-color: white;
 } 
-
-header .btn2:hover{
-  box-shadow: 5px 5px 20px var(--red);
-}
 
 #menu-bar{
   font-size: 3rem;
@@ -425,19 +405,6 @@ header .btn2:hover{
   background-color: var(--red);
 }
 
-
-/* .footer .credit{
-  text-align: center;
-  padding:2.5rem 1rem;
-  color:#fff;
-  font-weight: normal;
-  font-size: 2rem;
-} */
-
-/* .footer .credit span{
-  color:var(--red);
-} */
-
 #scroll-top{
   position: fixed;
   top:-120%;
@@ -470,18 +437,6 @@ header .btn2:hover{
 .loader-container.fade-out{
   top:-120%;
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 /* media queries  */
