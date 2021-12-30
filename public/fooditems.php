@@ -1,3 +1,15 @@
+<?php
+    session_start();
+
+    if(!isset($_SESSION['custid'])){
+        ?>
+        <script>
+          window.open('login.php','_self');
+        </script>
+    <?php
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 

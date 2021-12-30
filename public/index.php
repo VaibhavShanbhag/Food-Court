@@ -1,12 +1,16 @@
 <?php
     session_start();
 
-    if (isset($_SESSION['cust_id'])) {
+    if (isset($_SESSION['custid'])) {
         include('../private/dbconnect.php');
-        $cust_id = $_SESSION['cust_id'];
+        $cust_id = $_SESSION['custid'];
         $query = "select * from `customer` where `cust_id` = $cust_id";
-        $run = mysqli_query($cinn,$query);
-        $run = mysqli_fetch_assoc($run);
+        $run = mysqli_query($conn,$query);
+        $data = mysqli_fetch_assoc($run);
+
+    }
+
+    else {
 
     }
 ?>
@@ -34,8 +38,6 @@
 
         <a href="#" class="logo"><i class="fas fa-utensils"></i>Food Court</a>
 
-        <div id="menu-bar" class="fas fa-bars"></div>
-
         <nav class="navbar">
             <a href="#home">home</a>
             <a href="#speciality">speciality</a>
@@ -43,7 +45,24 @@
             <a href="#step">Services</a>
             <a href="#review">review</a>
         </nav>
-        <a class="btn btn2" href="login.php">login/sign up</a>
+  
+        <div class="login-signup">
+            <?php
+                if (isset(($_SESSION['custid']))) {
+                    ?>
+                        <a href="" class="btn btn2"><i class="fa fa-user" aria-hidden="true">&nbsp;</i><?php echo $data['name'] ?></a>
+                    <?php
+                    ?>
+                    <a href="logout.php" class="btn btn2"><i class="fas fa-sign-out-alt" aria-hidden="true">&nbsp;</i>Logout</a>
+                    <?php
+                }
+                else {
+                    ?>
+                        <a class="btn btn2" href="login.php">login/sign up</a>
+                    <?php
+                }
+            ?>
+        </div>
     </header>
 
     <!-- header section ends -->
