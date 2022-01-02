@@ -1,4 +1,5 @@
 <?php
+session_start();
 if (isset($_POST['login'])) {
 	$username = $_POST['username'];
     $password = $_POST['password'];
@@ -7,6 +8,7 @@ if (isset($_POST['login'])) {
 
     
     if(($username == $uname) && ($password == $pass)){
+        $_SESSION['uname'] = $username;
         ?>
         <script>
             window.open('admindash.php', '_self');

@@ -4,9 +4,15 @@
     if(!isset($_SESSION['custid'])){
         ?>
         <script>
-          window.open('login.php','_self');
+            window.open('login.php', '_self');
         </script>
-    <?php
+        <?php
+    }
+
+    else{
+        include("../private/dbconnect.php");
+        $query = "SELECT * FROM `food`";
+		$run = mysqli_query($conn, $query);
     }
 ?>
 
@@ -37,7 +43,6 @@
         outline: none;
         border: none;
         text-decoration: none;
-        text-transform: capitalize;
         transition: all .2s linear;
         list-style: none;
     }
@@ -153,7 +158,7 @@
     .food-items {
         display: flex;
         flex-wrap: wrap;
-        /* gap: 1.5rem; */
+        gap: 1.5rem;
         justify-content: center;
     }
 
@@ -275,112 +280,75 @@
                 {
                     echo "<span><b>0</b></span>";
                 }
-                ?>
+            ?>
         </a>
     </header>
     <section>
         <h3 class="menu">Menu</h3>
         <ul class="list-top">
             <li class="list active" data-filter="All">All</li>
-            <li class="list" data-filter="Burger">Burger</li>
-            <li class="list" data-filter="Pizza">Pizza</li>
-            <li class="list" data-filter="Ice Cream">Ice Cream</li>
-            <li class="list" data-filter="Cold Drinks">Cold Drinks</li>
-            <li class="list" data-filter="Sweets">Sweets</li>
-            <li class="list" data-filter="Breakfast">Breakfast</li>
-            <li class="list" data-filter="Biryani">Biryani</li>
+            <li class="list" data-filter="burger">Burger</li>
+            <li class="list" data-filter="pizza">Pizza</li>
+            <li class="list" data-filter="icecream">Ice Cream</li>
+            <li class="list" data-filter="colddrink">Cold Drinks</li>
+            <li class="list" data-filter="sweets">Sweets</li>
+            <li class="list" data-filter="breakfast">Breakfast</li>
+            <li class="list" data-filter="biryani">Biryani</li>
         </ul>
         <div class="food-items">
-            <div class="food Burger">
-                <img src="Food Images/Tasty Burger/Chili Burger with Pepper Relish.jpg" alt="">
-                <div class="food-details">
-                    <div class="food-title-type">
-                        <h3 class="title">Chilly Burger With Pepper Relish <span class="veg-indian-vegetarian"></span>
-                        </h3>
-                    </div>
-                    <div class="food-description">
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aliquam illum perspiciatis nostrum
-                            accusamus necessitatibus itaque sequi quae illo recusandae maxime?</p>
+            <?php
+                if(mysqli_num_rows($run) < 1){
+                ?>
+                    <script type="text/javascript">
+                        alert("No records found!");
+                    </script>
+                <?php
+                }    
+                else {
+                    while($data = mysqli_fetch_assoc($run)){
+                ?>
+                    <div class="food <?php echo $data['category']; ?>">
+                        <img src="Food Images/<?php echo $data['image']; ?>" alt="">
+                        <div class="food-details">
+                            <div class="food-title-type">
+                            <h3 class="title">
+                            <?php echo $data['name']; ?>
+                                <?php 
 
-                    </div>
-                    <div class="price-quantity">
-                        <h3 class="price">Rs. 14</h3>
-                        <div class="quantity">
-                            <button onclick="decrement()" class="btn1">-</button>
-                            <h3 id="quantity">1</h3>
-                            <button onclick="increment()" class="btn2">+</button>
-                        </div>
-                    </div>
-                </div>
-                <a href="#"><i class="fas fa-shopping-cart"></i>Add to cart</a>
-            </div>
-            <div class="food Pizza">
-                <img src="Food Images/Tasty Pizza/Chicken Supreme Pizza.jpg" alt="">
-                <div class="food-details">
-                    <div class="food-title-type">
-                        <h3 class="title">Chilly Burger With Pepper Relish <span
-                                style="color:red; margin: 3px;">&#9679;&#8414;</span></h3>
+                                    if($data['type'] == "veg"){
 
-                    </div>
-                    <div class="food-description">
-                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Velit consequuntur similique quis
-                            culpa quam assumenda magnam ad nostrum ipsum architecto!</p>
-                    </div>
-                    <div class="price-quantity">
-                        <h3 class="price">Rs. 14</h3>
-                        <div class="quantity">
+                                        echo "<span class='veg-indian-vegetarian'></span>";
+                                    }
+
+                                    else {
+                                        echo "<span style='color:red; margin: 3px;'>&#9679;&#8414;</span>";
+                                    }
+
+                                ?>
+                             </h3>
+                            </div>
+                        <div class="food-description">
+                            <p>
+                                <?php echo $data['description']; ?>
+                            </p>
+                        </div>
+                        <div class="price-quantity">
+                            <h3 class="price">Rs.
+                                <?php echo $data['price']; ?>
+                            </h3>
+                            <div class="quantity">
                             <button onclick="decrement()" class="btn1">-</button>
                             <h3 id="quantity">1</h3>
                             <button onclick="increment()" class="btn2">+</button>
+                            </div>
                         </div>
                     </div>
-                </div>
                 <a href="#"><i class="fas fa-shopping-cart"></i>Add to cart</a>
             </div>
-            <div class="food Burger">
-                <img src="Food Images/Tasty Burger/Crispy Chicken Burger.jpg" alt="">
-                <div class="food-details">
-                    <div class="food-title-type">
-                        <h3 class="title">Chilly Burger With Pepper Relish <span
-                                style="color:red; margin: 3px;">&#9679;&#8414;</span></span></h3>
-                    </div>
-                    <div class="food-description">
-                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Velit consequuntur similique quis
-                            culpa quam assumenda magnam ad nostrum ipsum architecto!</p>
-                    </div>
-                    <div class="price-quantity">
-                        <h3 class="price">Rs. 14</h3>
-                        <div class="quantity">
-                            <button onclick="decrement()" class="btn1">-</button>
-                            <h3 id="quantity">1</h3>
-                            <button onclick="increment()" class="btn2">+</button>
-                        </div>
-                    </div>
-                </div>
-                <a href="#"><i class="fas fa-shopping-cart"></i>Add to cart</a>
-            </div>
-            <div class="food Pizza">
-                <img src="Food Images/Tasty Pizza/Tandoori Paneer.jpg" alt="">
-                <div class="food-details">
-                    <div class="food-title-type">
-                        <h3 class="title">Chilly Burger With Pepper Relish <span class="veg-indian-vegetarian"></span>
-                        </h3>
-                    </div>
-                    <div class="food-description">
-                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Velit consequuntur similique quis
-                            culpa quam assumenda magnam ad nostrum ipsum architecto!</p>
-                    </div>
-                    <div class="price-quantity">
-                        <h3 class="price">Rs. 14</h3>
-                        <div class="quantity">
-                            <button onclick="decrement()" class="btn1">-</button>
-                            <h3 id="quantity">1</h3>
-                            <button onclick="increment()" class="btn2">+</button>
-                        </div>
-                    </div>
-                </div>
-                <a href="#"><i class="fas fa-shopping-cart"></i>Add to cart</a>
-            </div>
+            <?php
+            }
+            }
+            ?>
         </div>
     </section>
     <script src="https://code.jquery.com/jquery-3.6.0.js"
@@ -407,11 +375,11 @@
         function increment() {
             quantity = quantity + 1;
 
-            if(quantity <= 10){
+            if (quantity <= 10) {
                 document.getElementById('quantity').innerText = quantity;
             }
 
-            else{
+            else {
                 quantity = 10;
                 document.getElementById('quantity').innerText = quantity;
             }
@@ -420,11 +388,11 @@
         function decrement() {
             quantity = quantity - 1;
 
-            if(quantity > 1){
+            if (quantity > 1) {
                 document.getElementById('quantity').innerText = quantity;
             }
 
-            else{
+            else {
                 quantity = 1;
                 document.getElementById('quantity').innerText = quantity;
             }

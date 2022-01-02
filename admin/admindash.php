@@ -1,10 +1,16 @@
 <?php
+    session_start();
 
+    if(!isset($_SESSION['uname'])){
+        ?>
+        <script>
+            window.open('adminlogin.php', '_self');
+        </script>
+        <?php
+    }
 ?>
-
 <!DOCTYPE html>
 <html>
-
 <head>
     <title>Dashboard | Food Court</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
