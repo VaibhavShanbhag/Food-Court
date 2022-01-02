@@ -307,7 +307,7 @@
                 else {
                     while($data = mysqli_fetch_assoc($run)){
                 ?>
-                    <div class="food <?php echo $data['category']; ?>">
+                <form action="cart.php" method="post" class="food <?php echo $data['category']; ?>">
                         <img src="Food Images/<?php echo $data['image']; ?>" alt="">
                         <div class="food-details">
                             <div class="food-title-type">
@@ -344,7 +344,7 @@
                         </div>
                     </div>
                 <a href="#"><i class="fas fa-shopping-cart"></i>Add to cart</a>
-            </div>
+            </form>
             <?php
             }
             }
