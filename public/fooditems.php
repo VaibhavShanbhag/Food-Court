@@ -1,5 +1,6 @@
 <?php
     session_start();
+    include("../private/dbconnect.php");
 
     if(!isset($_SESSION['custid'])){
         ?>
@@ -10,10 +11,15 @@
     }
 
     else{
-        include("../private/dbconnect.php");
         $query = "SELECT * FROM `food`";
 		$run = mysqli_query($conn, $query);
     }
+
+    if(isset($_POST['add_to_cart'])){
+        echo $_GET['f_id']; 
+    }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -222,12 +228,18 @@
         margin-top: -5px;
     }
 
-    .food-items .price-quantity .quantity button {
-        padding: 14px;
+    .food-items .price-quantity .quantity span {
+        padding: 15px;
         border-radius: 50%;
         color: white;
         font-weight: bold;
+        font-size: 14px;
         cursor: pointer;
+        webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -o-user-select: none;
+        user-select: none;
     }
 
     .food-items .price-quantity .quantity .btn1 {
@@ -245,7 +257,7 @@
         margin: 0 5px;
     }
 
-    .food-items .food a {
+    .food-items .food .btn3{
         text-transform: uppercase;
         text-align: center;
         width: 100%;
@@ -256,9 +268,10 @@
         padding: 10px 20px;
         margin-top: 20px;
         border-radius: 6px;
+        cursor: pointer;
     }
 
-    .food-items .food a i {
+    .food-items .food .btn3 i {
         margin-right: 5px;
     }
 </style>
@@ -307,13 +320,15 @@
                 else {
                     while($data = mysqli_fetch_assoc($run)){
                 ?>
-                <form action="cart.php" method="post" class="food <?php echo $data['category']; ?>">
+                <form action="managecart.php" method="POST" class="food <?php echo $data['category']; ?>">
                         <img src="Food Images/<?php echo $data['image']; ?>" alt="">
                         <div class="food-details">
                             <div class="food-title-type">
                             <h3 class="title">
                             <?php echo $data['name']; ?>
                                 <?php 
+
+                                    $f_id = $data['food_id'];
 
                                     if($data['type'] == "veg"){
 
@@ -337,13 +352,14 @@
                                 <?php echo $data['price']; ?>
                             </h3>
                             <div class="quantity">
-                            <button onclick="decrement()" class="btn1">-</button>
-                            <h3 id="quantity">1</h3>
-                            <button onclick="increment()" class="btn2">+</button>
+                            <span class="btn1 decrement <?php echo $f_id?>">-</span>
+                            <h3 id="quantity" name="qty">1</h3>
+                            <span class="btn2 increment">+</span>
                             </div>
                         </div>
                     </div>
-                <a href="#"><i class="fas fa-shopping-cart"></i>Add to cart</a>
+                <button type="submit" class="btn3" name="add_to_cart"><i class="fas fa-shopping-cart"></i>Add to cart</button>
+                <input type="hidden" name="f_id" value="<?php echo $data['food_id'] ?>">
             </form>
             <?php
             }
@@ -355,6 +371,7 @@
         integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <script type="text/javascript">
         $(document).ready(function () {
+            var quantity = 1;
             $('.list').click(function () {
                 const value = $(this).attr('data-filter');
                 if (value == 'All') {
@@ -364,29 +381,14 @@
                     $('.food').not('.' + value).hide('1000');
                     $('.food').filter('.' + value).show('1000');
                 }
-            })
+            });
 
             $('.list').click(function () {
                 $(this).addClass('active').siblings().removeClass('active');
-            })
-        })
-        var quantity = 1;
+            });
 
-        function increment() {
-            quantity = quantity + 1;
-
-            if (quantity <= 10) {
-                document.getElementById('quantity').innerText = quantity;
-            }
-
-            else {
-                quantity = 10;
-                document.getElementById('quantity').innerText = quantity;
-            }
-        }
-
-        function decrement() {
-            quantity = quantity - 1;
+            $('.decrement').click(function() {
+                quantity = quantity - 1;
 
             if (quantity > 1) {
                 document.getElementById('quantity').innerText = quantity;
@@ -396,8 +398,50 @@
                 quantity = 1;
                 document.getElementById('quantity').innerText = quantity;
             }
+            });
 
-        }
+            $('.increment').click(function() {;
+                quantity = quantity + 1;
+
+            if (quantity <= 10) {
+                document.getElementById('quantity').innerText = quantity;
+            }
+
+            else {
+                quantity = 10;
+                document.getElementById('quantity').innerText = quantity;
+            }
+
+        });
+
+        });
+        // var quantity = 1;
+        // function increment() {
+        //     quantity = quantity + 1;
+
+        //     if (quantity <= 10) {
+        //         document.getElementById('quantity').innerText = quantity;
+        //     }
+
+        //     else {
+        //         quantity = 10;
+        //         document.getElementById('quantity').innerText = quantity;
+        //     }
+        // }
+
+        // function decrement() {
+        //     quantity = quantity - 1;
+
+        //     if (quantity > 1) {
+        //         document.getElementById('quantity').innerText = quantity;
+        //     }
+
+        //     else {
+        //         quantity = 1;
+        //         document.getElementById('quantity').innerText = quantity;
+        //     }
+
+        // }
 
     </script>
 </body>
