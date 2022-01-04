@@ -255,6 +255,22 @@
         border-radius: 50%;
         border: 1px solid grey;
         margin: 0 5px;
+        webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -o-user-select: none;
+        user-select: none;
+/* 
+        margin: 0 5px;
+        text-align: center;
+        width: 50px;
+      height: 50px;
+      font-size: 16px;
+      font-weight: bold;
+      border: 1px solid grey;
+      border-radius: 50% */
+
+
     }
 
     .food-items .food .btn3{
@@ -326,9 +342,7 @@
                             <div class="food-title-type">
                             <h3 class="title">
                             <?php echo $data['name']; ?>
-                                <?php 
-
-                                    $f_id = $data['food_id'];
+                                <?php
 
                                     if($data['type'] == "veg"){
 
@@ -352,9 +366,9 @@
                                 <?php echo $data['price']; ?>
                             </h3>
                             <div class="quantity">
-                            <span class="btn1 decrement <?php echo $f_id?>">-</span>
-                            <h3 id="quantity" name="qty">1</h3>
-                            <span class="btn2 increment">+</span>
+                            <span class="btn1" onclick="decrement(<?php echo $data['food_id']; ?>)">-</span>
+                            <h3 id="quantity-<?php echo $data['food_id']; ?>" name="qty">1</h3>
+                            <span class="btn2" onclick="increment(<?php echo $data['food_id']; ?>)">+</span>
                             </div>
                         </div>
                     </div>
@@ -371,7 +385,6 @@
         integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            var quantity = 1;
             $('.list').click(function () {
                 const value = $(this).attr('data-filter');
                 if (value == 'All') {
@@ -387,61 +400,28 @@
                 $(this).addClass('active').siblings().removeClass('active');
             });
 
-            $('.decrement').click(function() {
-                quantity = quantity - 1;
+        });
+        function increment(food_id) {
+            var input_quantity = document.getElementById("quantity-"+food_id).innerText;
+            var quantity = parseInt(input_quantity,10);
+
+            if (quantity < 10) {
+                quantity += 1;
+                document.getElementById("quantity-"+food_id).innerText = quantity;
+            }
+
+        }
+
+        function decrement(food_id) {
+            var input_quantity = document.getElementById("quantity-"+food_id).innerText;
+            var quantity = parseInt(input_quantity,10);
 
             if (quantity > 1) {
-                document.getElementById('quantity').innerText = quantity;
+                quantity -= 1;
+                document.getElementById("quantity-"+food_id).innerText = quantity;
             }
 
-            else {
-                quantity = 1;
-                document.getElementById('quantity').innerText = quantity;
-            }
-            });
-
-            $('.increment').click(function() {;
-                quantity = quantity + 1;
-
-            if (quantity <= 10) {
-                document.getElementById('quantity').innerText = quantity;
-            }
-
-            else {
-                quantity = 10;
-                document.getElementById('quantity').innerText = quantity;
-            }
-
-        });
-
-        });
-        // var quantity = 1;
-        // function increment() {
-        //     quantity = quantity + 1;
-
-        //     if (quantity <= 10) {
-        //         document.getElementById('quantity').innerText = quantity;
-        //     }
-
-        //     else {
-        //         quantity = 10;
-        //         document.getElementById('quantity').innerText = quantity;
-        //     }
-        // }
-
-        // function decrement() {
-        //     quantity = quantity - 1;
-
-        //     if (quantity > 1) {
-        //         document.getElementById('quantity').innerText = quantity;
-        //     }
-
-        //     else {
-        //         quantity = 1;
-        //         document.getElementById('quantity').innerText = quantity;
-        //     }
-
-        // }
+        }
 
     </script>
 </body>
