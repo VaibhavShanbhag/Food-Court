@@ -2,6 +2,14 @@
     session_start();
     include("../private/dbconnect.php");
 
+    if (count($_SESSION['cart']) == 0) {
+        ?>
+                <script>
+                        window.open("emptycart.php","_self");
+                </script>
+                <?php
+    }
+
     if(isset($_POST['remove_btn'])) {
         foreach($_SESSION['cart'] as $key => $value) {
             if($value['food_id']  == $_POST['food_id']){
@@ -359,7 +367,7 @@
                         $run = mysqli_query($conn, $query);
                         $data = mysqli_fetch_assoc($run);
                         $amount = $data['price'] * $value['qty'];
-                        // $_SESSION['cart']['total_amount'] = $amount;
+                        $_SESSION['cart'][$key]['total']=$amount; 
                         $subtotal += $amount;
                         $_SESSION['subtotal'] = $subtotal;
                         ?>
