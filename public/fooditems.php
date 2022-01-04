@@ -4,10 +4,10 @@
 
     if(!isset($_SESSION['custid'])){
         ?>
-        <script>
-            window.open('login.php', '_self');
-        </script>
-        <?php
+<script>
+    window.open('login.php', '_self');
+</script>
+<?php
     }
 
     else{
@@ -15,8 +15,27 @@
 		$run = mysqli_query($conn, $query);
     }
 
-    if(isset($_POST['add_to_cart'])){
-        echo $_GET['f_id']; 
+    if($_SERVER['REQUEST_METHOD'] == 'POST'){
+        if (isset($_POST['add_to_cart'])) {
+            if (isset($_SESSION['cart'])) {
+                $count = count($_SESSION['cart']);
+                $_SESSION['cart'][$count] = array('cust_id'=>$_SESSION['custid'],'food_id'=>$_POST['f_id'],'qty'=>$_POST['qty']);
+                ?>
+                <script>
+                        alert("Item Added to the Cart!");
+                </script>
+                <?php
+            }
+
+            else {
+                $_SESSION['cart'][0] = array('cust_id'=>$_SESSION['custid'],'food_id'=>$_POST['f_id'],'qty'=>$_POST['qty']); 
+                ?>
+                <script>
+                        alert("Item Added to the Cart!");
+                </script>
+                <?php
+            }
+        }
     }
 
 
@@ -250,30 +269,24 @@
         background-color: green;
     }
 
-    .food-items .price-quantity .quantity h3 {
-        padding: 10px;
-        border-radius: 50%;
-        border: 1px solid grey;
-        margin: 0 5px;
+    .food-items .price-quantity .quantity input {
         webkit-user-select: none;
         -khtml-user-select: none;
         -moz-user-select: none;
         -o-user-select: none;
         user-select: none;
-/* 
+
         margin: 0 5px;
+        border-radius: 50%;
+        border: 1px solid grey;
         text-align: center;
-        width: 50px;
-      height: 50px;
-      font-size: 16px;
-      font-weight: bold;
-      border: 1px solid grey;
-      border-radius: 50% */
-
-
+        width: 40px;
+        height: 50px;
+        font-weight: bold;
+        font-size: 16px;
     }
 
-    .food-items .food .btn3{
+    .food-items .food .btn3 {
         text-transform: uppercase;
         text-align: center;
         width: 100%;
@@ -298,7 +311,7 @@
 
         <a href="#" class="logo"><i class="fas fa-utensils"></i>Food Court</a>
 
-        <a class="btn" href="#">Cart
+        <a class="btn" href="cart.php">Cart
             <?php
                 if (isset($_SESSION['cart'])) 
                 {
@@ -328,21 +341,21 @@
             <?php
                 if(mysqli_num_rows($run) < 1){
                 ?>
-                    <script type="text/javascript">
-                        alert("No records found!");
-                    </script>
-                <?php
+            <script type="text/javascript">
+                alert("No records found!");
+            </script>
+            <?php
                 }    
                 else {
                     while($data = mysqli_fetch_assoc($run)){
                 ?>
-                <form action="managecart.php" method="POST" class="food <?php echo $data['category']; ?>">
-                        <img src="Food Images/<?php echo $data['image']; ?>" alt="">
-                        <div class="food-details">
-                            <div class="food-title-type">
-                            <h3 class="title">
+            <form action="fooditems.php" method="POST" class="food <?php echo $data['category']; ?>">
+                <img src="Food Images/<?php echo $data['image']; ?>" alt="">
+                <div class="food-details">
+                    <div class="food-title-type">
+                        <h3 class="title">
                             <?php echo $data['name']; ?>
-                                <?php
+                            <?php
 
                                     if($data['type'] == "veg"){
 
@@ -354,25 +367,26 @@
                                     }
 
                                 ?>
-                             </h3>
-                            </div>
-                        <div class="food-description">
-                            <p>
-                                <?php echo $data['description']; ?>
-                            </p>
-                        </div>
-                        <div class="price-quantity">
-                            <h3 class="price">Rs.
-                                <?php echo $data['price']; ?>
-                            </h3>
-                            <div class="quantity">
+                        </h3>
+                    </div>
+                    <div class="food-description">
+                        <p>
+                            <?php echo $data['description']; ?>
+                        </p>
+                    </div>
+                    <div class="price-quantity">
+                        <h3 class="price">Rs.
+                            <?php echo $data['price']; ?>
+                        </h3>
+                        <div class="quantity">
                             <span class="btn1" onclick="decrement(<?php echo $data['food_id']; ?>)">-</span>
-                            <h3 id="quantity-<?php echo $data['food_id']; ?>" name="qty">1</h3>
+                            <input readonly type="text" id="quantity-<?php echo $data['food_id']; ?>" name="qty" value=1>
                             <span class="btn2" onclick="increment(<?php echo $data['food_id']; ?>)">+</span>
-                            </div>
                         </div>
                     </div>
-                <button type="submit" class="btn3" name="add_to_cart"><i class="fas fa-shopping-cart"></i>Add to cart</button>
+                </div>
+                <button type="submit" class="btn3" name="add_to_cart"><i class="fas fa-shopping-cart"></i>Add to
+                    cart</button>
                 <input type="hidden" name="f_id" value="<?php echo $data['food_id'] ?>">
             </form>
             <?php
@@ -402,23 +416,23 @@
 
         });
         function increment(food_id) {
-            var input_quantity = document.getElementById("quantity-"+food_id).innerText;
-            var quantity = parseInt(input_quantity,10);
+            var input_quantity = document.getElementById("quantity-" + food_id).value;
+            var quantity = parseInt(input_quantity, 10);
 
             if (quantity < 10) {
                 quantity += 1;
-                document.getElementById("quantity-"+food_id).innerText = quantity;
+                document.getElementById("quantity-" + food_id).value = quantity;
             }
 
         }
 
         function decrement(food_id) {
-            var input_quantity = document.getElementById("quantity-"+food_id).innerText;
-            var quantity = parseInt(input_quantity,10);
+            var input_quantity = document.getElementById("quantity-" + food_id).value;
+            var quantity = parseInt(input_quantity, 10);
 
             if (quantity > 1) {
                 quantity -= 1;
-                document.getElementById("quantity-"+food_id).innerText = quantity;
+                document.getElementById("quantity-" + food_id).value = quantity;
             }
 
         }

@@ -200,7 +200,6 @@
       <form method="post" action="login.php">
         <input type="email" name="email" placeholder="Email" required="required">
         <input type="password" name="password" placeholder="Password" required="required">
-        <a href="confirmEmail.php" class="forgot-pass">Forgot password?</a>
         <input type="submit" name="login" value="Login">
         <h5>Don't have an Account? <a href="signup.php">Sign Up</a></h5>
       </form>

@@ -1,3 +1,24 @@
+<?php
+    session_start();
+    include("../private/dbconnect.php");
+
+    if(isset($_POST['remove_btn'])) {
+        foreach($_SESSION['cart'] as $key => $value) {
+            if($value['food_id']  == $_POST['food_id']){
+                unset($_SESSION['cart'][$key]);
+                $_SESSION['cart'] = array_values($_SESSION['cart']);
+                ?>
+                <script type="text/javascript">
+                    alert("Item Removed from the Cart!");
+                    location.reload();
+                </script>
+                <?php
+            }
+            
+        }
+    }
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,6 +28,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="http://static.sasongsmat.nu/fonts/vegetarian.css" />
     <title>Cart | Food Court</title>
 
     <style>
@@ -214,7 +236,7 @@
             margin-top: 65px;
             text-align: center;
             margin-left: 20px;
-            font-size: 14px;
+            font-size: 15px;
         }
 
         .container .item1 .veg {
@@ -244,10 +266,10 @@
         }
 
         .outer {
-            margin: 63px 0 0 90px;
+            margin: 60px 0 0 90px;
         }
 
-        .container .outer a {
+        .container .outer .remove-btn {
             text-decoration: none;
             text-align: center;
             background-color: red;
@@ -258,6 +280,12 @@
 
         }
 
+        .remove-btn:hover {
+        -moz-box-shadow: 3px 3px 5px 6px #ccc;
+        -webkit-box-shadow: 3px 3px 5px 6px #ccc;
+        box-shadow: 3px 3px 5px 6px #ccc;
+    }
+
         .subtotal {
             background-color: lightgray;
             height: 54px;
@@ -267,11 +295,33 @@
         }
 
         .subtotal h5 {
-            margin-left: 790px;
+            margin-left: 780px;
             font-size: 22px;
             padding-top: 12px;
             font-weight: bold;
-            
+
+        }
+
+        .checkout{
+            display: flex;
+            justify-content: center;
+            margin: 50px;
+        }
+
+        .checkout .checkout-btn{
+            text-decoration: none;
+            text-align: center;
+            background: linear-gradient(to right, red, #ff9900);
+            color: white;
+            padding: 10px 40px;
+            border-radius: 5px;
+            font-size: 18px;
+        }
+
+        .checkout-btn:hover {
+        -moz-box-shadow: 3px 3px 5px 6px #ccc;
+        -webkit-box-shadow: 3px 3px 5px 6px #ccc;
+        box-shadow: 3px 3px 5px 6px #ccc;
         }
     </style>
 </head>
@@ -299,28 +349,67 @@
                     </ul>
                 </nav>
             </div>
+
+            <?php
+                    $amount = 0;
+                    $subtotal = 0;
+                    $remove = 0;
+                    foreach ($_SESSION['cart'] as $key => $value) {
+                        $query = "SELECT `image`, `name`, `type`, `description`, `price` FROM `food` WHERE `food_id` = $value[food_id]";
+                        $run = mysqli_query($conn, $query);
+                        $data = mysqli_fetch_assoc($run);
+                        $amount = $data['price'] * $value['qty'];
+                        // $_SESSION['cart']['total_amount'] = $amount;
+                        $subtotal += $amount;
+                        $_SESSION['subtotal'] = $subtotal;
+                        ?>
             <div class="item1">
-                <img src="Food Images/Chicken Supreme Pizza.jpg" alt="image" srcset="">
+                <img src="Food Images/<?php echo $data['image']; ?>" alt="image" srcset="">
                 <div class="details">
                     <div class="title">
-                        <h3>Paneer kadhai <span style='color:red; margin: 3px;'>&#9679;&#8414;</span></h3>
+                        <h3><?php echo $data['name']; ?>
+                        <?php
+                            if($data['type'] == "veg"){
+
+                            echo "<span class='veg-indian-vegetarian'></span>";
+                            }
+
+                            else {
+                            echo "<span style='color:red; margin: 3px;'>&#9679;&#8414;</span>";
+                            }
+                        ?>
+                        </h3>
                     </div>
-                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Deserunt quia rerum, itaque quae
-                        corrupti
-                        neque magnam a aliquam molestias dolores?</p>
+                    <p>
+                        <?php echo $data['description']; ?>
+                    </p>
                 </div>
-                <div class="price">99</div>
-                <div class="quantity">x2</div>
-                <div class="amount">198</div>
+                <div class="price">
+                    <?php echo $data['price']; ?>
+                </div>
+                <div class="quantity">x<?php echo $value['qty']?>
+                </div>
+                <div class="amount"><?php echo $amount; ?>
+                </div>
                 <div class="outer">
-                    <a href="">Remove</a>
-                    </a>
+                    <form action="cart.php" method="post">
+                        <button type="submit" name="remove_btn" class="remove-btn">Remove</button>
+                        <input type="hidden" name="food_id" value="<?php echo $value['food_id']?>">
+                    </form>
                 </div>
             </div>
             <hr class="line">
+            <?php
+                    }
+                    ?>
             <div class="subtotal">
-                <h5>Subtotal &nbsp;&nbsp;&nbsp;430.00</h5>
+                <h5>Subtotal &nbsp;&nbsp;&nbsp;<?php echo $_SESSION['subtotal'] .".00" ?></h5>
             </div>
+        </div>
+        <div class="checkout">
+            <form action="cart.php" method="post">
+            <button type="submit" name="checkout" class="checkout-btn">Checkout</button>
+            </form>
         </div>
     </div>
 </body>
