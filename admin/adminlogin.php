@@ -178,7 +178,7 @@ if (isset($_POST['login'])) {
 </style>
 <body>
     <header>
-        <a href="index.php" class="btn">Back</a>
+        <a href="../public/index.php" class="btn">Back</a>
         <a href="#" class="logo"><i class="fas fa-utensils"></i>Food Court</a>
         <a class="btn" href="#" style="background-color:green; border: .2rem solid green;">Home</a>
     </header>

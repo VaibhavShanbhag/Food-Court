@@ -152,7 +152,7 @@
         <img src="images/empty-cart.png" alt="empty" srcset="">
         <h1>Empty Cart</h1>
         <p>Looks like you haven't made your choice yet</p>
-        <p><a href="fooditems.php"><button>Back To Home</button></a></p>
+        <p><a href="index.php"><button>Back To Home</button></a></p>
     </div>
 </body>
 
