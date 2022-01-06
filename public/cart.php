@@ -324,6 +324,7 @@
             padding: 10px 40px;
             border-radius: 5px;
             font-size: 18px;
+            cursor: pointer;
         }
 
         .checkout-btn:hover {
@@ -415,9 +416,7 @@
             </div>
         </div>
         <div class="checkout">
-            <form action="cart.php" method="post">
-            <button type="submit" name="checkout" class="checkout-btn">Checkout</button>
-            </form>
+            <a class="checkout-btn" href="checkout.php">Checkout</a>
         </div>
     </div>
 </body>
