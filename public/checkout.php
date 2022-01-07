@@ -5,6 +5,19 @@
     $sql = "select * from `customer` where `cust_id`= '{$_SESSION['custid']}'";
     $run = mysqli_query($conn,$sql);
     $data = mysqli_fetch_assoc($run);
+
+    if(isset($_POST['checkout'])) {
+        foreach ($_SESSION['cart'] as $key => $value) {
+            $sql = "INSERT INTO `order`(`order_id`, `cust_id`, `food_id`, `quantity`, `total_price`) VALUES ('{$value['cust_id']}', '{$value['cust_id']}', '{$value['food_id']}', '{$value['qty']}', '{$value['total']}')";
+            $run = mysqli_query($conn,$sql);
+            ?>
+        <script>
+            window.open("order.php","_self");
+        </script>
+
+        <?php
+        }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -326,9 +339,9 @@
             </div>
 
         </div>
-        <form action="order.php" method="post">
+        <form action="checkout.php" method="post">
             <p style="text-align: center;">
-            <button type="submit" class="order" name="checkout">Order Now</button>
+            <input type="submit" class="order" name="checkout" value="Order Now">
             </p>
         </form>
     </div>

@@ -1,3 +1,15 @@
+<?php
+    session_start();
+    include("../private/dbconnect.php");
+
+    $sql = "select * from `customer` where `cust_id`= '{$_SESSION['custid']}'";
+    $run = mysqli_query($conn,$sql);
+    $cust = mysqli_fetch_assoc($run);
+
+    date_default_timezone_set("Asia/Calcutta");
+    
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -119,8 +131,7 @@
         }
 
         .container h2,
-        p
-        {
+        p {
             text-align: center;
             margin-top: 5px;
         }
@@ -205,15 +216,15 @@
             justify-content: center;
         }
 
-        .delivery-image img{
+        .delivery-image img {
             -webkit-transform: scaleX(-1);
-  transform: scaleX(-1);
+            transform: scaleX(-1);
         }
 
-        .message p{
+        .message p {
             text-align: center;
             margin-top: 5px;
-            font-size:17px;
+            font-size: 17px;
             font-weight: bold;
             color: #808080;
         }
@@ -221,6 +232,11 @@
 </head>
 
 <body>
+    <?php
+        $sql = "select * from `order` where `order_id`= '{$_SESSION['custid']}'";
+        $run = mysqli_query($conn,$sql);
+        $order = mysqli_fetch_assoc($run);
+    ?>
     <header>
         <a href="index.php" class="btn">Home</a>
 
@@ -230,23 +246,35 @@
         <img src="images/delivery.gif" alt="" width="250">
     </div>
     <div class="message">
-    <p class="message">Super! Your Order will be Delivered Shortly</p>
+        <p class="message">Super! Your Order will be Delivered Shortly</p>
     </div>
     <div class="container">
         <h2>Order Summary</h2>
-        <p class="oid"><span>ORDER ID:</span> #51200-2</p>
-        <p class="odate"><span>ORDER PLACED ON:</span> 2020-10-01 05:22pm</p>
+        <p class="oid"><span>ORDER ID:</span> #403601-
+            <?php echo $order['order_id'] ?>
+        </p>
+        <p class="odate"><span>ORDER PLACED ON:</span>
+            <?php echo date('d-m-Y H:i:s A'); ?>
+        </p>
 
         <div class="custdetails">
             <h3>Delivery Details:</h3>
             <div class="custdetails0">
                 <div class="custdetails1">
-                    <p class="name">Vaibhav Shanbhag</p>
-                    <p class="address">Plot-15, Sector-4 sampada, Navi Mumbai-400025</p>
+                    <p class="name">
+                        <?php echo $cust['name'] ?>
+                    </p>
+                    <p class="address">
+                        <?php echo $cust['address'] ?>
+                    </p>
                 </div>
                 <div class="custdetails2">
-                    <p class="email">vaibhav37@gmail.com</p>
-                    <p class="contact">9988776655</p>
+                    <p class="email">
+                        <?php echo $cust['email'] ?>
+                    </p>
+                    <p class="contact">
+                        <?php echo $cust['mobile_number'] ?>
+                    </p>
                 </div>
             </div>
         </div>
@@ -260,19 +288,21 @@
                         <th>Quantity</th>
                         <th>Total</th>
                     </tr>
-                    <tr>
-                        <td>Pulav</td>
-                        <td>60</td>
-                        <td>x2</td>
-                        <td>120</td>
-                    </tr>
-                    <tr>
-                        <td>Biryani</td>
-                        <td>120</td>
-                        <td>x1</td>
-                        <td>120</td>
-                    </tr>
-
+                    <?php
+                            foreach ($_SESSION['cart'] as $key => $value) {
+                                $query = "SELECT * FROM `food` WHERE `food_id` = $value[food_id]";
+                                $run = mysqli_query($conn, $query);
+                                $data = mysqli_fetch_assoc($run);
+                                ?>
+                                <tr>
+                                <td><?php echo $data['name'] ?></td>
+                                <td><?php echo $data['price'] ?></td>
+                                <td><?php echo $value['qty'] ?></td>
+                                <td><?php echo $value['total'] ?></td>
+                                </tr>
+                                <?php    
+                            } 
+                    ?>
                 </table>
             </div>
         </div>
@@ -280,8 +310,12 @@
             <h3>Price Details:</h3>
             <table class="pricetable">
                 <tr>
-                    <td>Total (2 items)</td>
-                    <td>Rs. 318.00</td>
+                    <td>Total (
+                        <?php echo count($_SESSION['cart']) ?> items)
+                    </td>
+                    <td>Rs.
+                        <?php echo $_SESSION['subtotal'] .".00" ?>
+                    </td>
                 </tr>
                 <tr>
                     <td>Delivery charges</td>
@@ -290,7 +324,9 @@
 
                 <tr class="final">
                     <td style="font-weight: bold;">Amount Payable</td>
-                    <td style="color: green;">Rs. 318.00</td>
+                    <td style="color: green;">Rs.
+                        <?php echo $_SESSION['subtotal'] .".00" ?>
+                    </td>
                 </tr>
             </table>
         </div>
