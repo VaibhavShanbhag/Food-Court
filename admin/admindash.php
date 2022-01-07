@@ -160,8 +160,6 @@
     </div>
     <div class="container">
             <a href="addnewitem.php" class="btn2">add new item</a>
-            <a href="updateitem.php" class="btn2">update item</a>
-            <a href="deleteitem.php" class="btn2">delete item</a>
             <a href="menudetail.php" class="btn2">menu details</a>
             <a href="orderdetail.php" class="btn2">order details</a>
             <a href="customerdetail.php" class="btn2">customer details</a>
