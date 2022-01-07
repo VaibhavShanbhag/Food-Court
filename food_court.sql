@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 03, 2022 at 07:26 PM
+-- Generation Time: Jan 07, 2022 at 05:08 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.3.33
 
@@ -42,7 +42,8 @@ CREATE TABLE `customer` (
 
 INSERT INTO `customer` (`cust_id`, `name`, `mobile_number`, `email`, `address`, `password`) VALUES
 (1, 'Vaibhav Shanbhag', '7219111959', 'vaibhavshanbhag22@gmail.com', 'Mrago', '12345678'),
-(2, 'Virat Kohli', '7665667789', 'ViratKohli112@gmail.com', 'Mumbai, India', '12345678');
+(2, 'Virat Kohli', '7665667789', 'ViratKohli112@gmail.com', 'Mumbai, India', '12345678'),
+(3, 'Vaibhav Shanbhag', '7219111955', 'vaibhavshanbhag2212@gmail.com', 'Fatorada, Margao - Goa, India', '12345678');
 
 -- --------------------------------------------------------
 
@@ -53,7 +54,7 @@ INSERT INTO `customer` (`cust_id`, `name`, `mobile_number`, `email`, `address`, 
 CREATE TABLE `food` (
   `food_id` int(11) NOT NULL,
   `image` varchar(200) NOT NULL,
-  `name` varchar(200) NOT NULL,
+  `food_name` varchar(200) NOT NULL,
   `type` varchar(100) NOT NULL,
   `category` varchar(150) NOT NULL,
   `description` varchar(500) NOT NULL,
@@ -64,7 +65,7 @@ CREATE TABLE `food` (
 -- Dumping data for table `food`
 --
 
-INSERT INTO `food` (`food_id`, `image`, `name`, `type`, `category`, `description`, `price`) VALUES
+INSERT INTO `food` (`food_id`, `image`, `food_name`, `type`, `category`, `description`, `price`) VALUES
 (1, 'Chicken Supreme Pizza.jpg', 'Chicken Supreme Pizza', 'non-veg', 'pizza', 'Herbed Chicken, Schezwan Chicken Meatball, Chicken Tikka.', 350),
 (2, 'Chili Burger with Pepper Relish.jpg', 'Chili Burger with Pepper Relish', 'veg', 'burger', 'An American recipe of chilli burgers. A spiced lamb patty slapped between burger buns served with a roasted red bell pepper dip.', 120),
 (3, 'Crispy Chicken Burger.jpg', 'Crispy Chicken Burger', 'non-veg', 'burger', 'These fried chicken burgers are ultra crispy and absolutely bursting with flavour. Better still, they couldn’t be easier to make.', 200),
@@ -92,6 +93,39 @@ INSERT INTO `food` (`food_id`, `image`, `name`, `type`, `category`, `description
 (26, 'Chicken Biryani With Coconut Milk.jpg', 'Chicken Biryani With Coconut Milk', 'non-veg', 'biryani', 'This one is a heartwarming combination of spices and condiments simmering with chicken pieces and rice. An added dose of coconut milk makes this one a creamy, aromatic treat.', 120),
 (27, 'Makhni Paneer Biryani.jpg', 'Makhni Paneer Biryani', 'veg', 'biryani', 'Fried paneer cubes doused in a luscious creamy gravy, layered with rice and cooked dum style. A perfect biryani recipe for vegetarians and a paneer lover delight.', 120);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order`
+--
+
+CREATE TABLE `order` (
+  `id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `cust_id` int(11) NOT NULL,
+  `food_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `total_price` int(11) NOT NULL,
+  `date_time` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `order`
+--
+
+INSERT INTO `order` (`id`, `order_id`, `cust_id`, `food_id`, `quantity`, `total_price`, `date_time`) VALUES
+(4, 2, 2, 1, 1, 350, '2022-01-07 08:07:52'),
+(5, 2, 2, 17, 1, 30, '2022-01-07 08:07:53'),
+(6, 3, 3, 1, 4, 1400, '2022-01-07 08:24:58'),
+(7, 3, 3, 16, 4, 160, '2022-01-07 08:24:58'),
+(8, 1, 1, 1, 4, 1400, '2022-01-07 08:33:22'),
+(9, 1, 1, 16, 4, 160, '2022-01-07 08:33:22'),
+(10, 2, 2, 2, 1, 120, '2022-01-07 08:36:04'),
+(11, 2, 2, 2, 1, 120, '2022-01-07 08:41:16'),
+(12, 2, 2, 23, 2, 120, '2022-01-07 08:52:54'),
+(13, 2, 2, 2, 3, 360, '2022-01-07 09:35:21'),
+(14, 2, 2, 1, 3, 1050, '2022-01-07 09:35:21');
+
 --
 -- Indexes for dumped tables
 --
@@ -109,6 +143,14 @@ ALTER TABLE `food`
   ADD PRIMARY KEY (`food_id`);
 
 --
+-- Indexes for table `order`
+--
+ALTER TABLE `order`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `cust_id_fk` (`cust_id`),
+  ADD KEY `food_id_fk` (`food_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -116,13 +158,30 @@ ALTER TABLE `food`
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `cust_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `cust_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `food`
 --
 ALTER TABLE `food`
   MODIFY `food_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+
+--
+-- AUTO_INCREMENT for table `order`
+--
+ALTER TABLE `order`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `order`
+--
+ALTER TABLE `order`
+  ADD CONSTRAINT `cust_id_fk` FOREIGN KEY (`cust_id`) REFERENCES `customer` (`cust_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `food_id_fk` FOREIGN KEY (`food_id`) REFERENCES `food` (`food_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
