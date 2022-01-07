@@ -295,7 +295,7 @@
                                 $data = mysqli_fetch_assoc($run);
                                 ?>
                                 <tr>
-                                <td><?php echo $data['name'] ?></td>
+                                <td><?php echo $data['food_name'] ?></td>
                                 <td><?php echo $data['price'] ?></td>
                                 <td><?php echo $value['qty'] ?></td>
                                 <td><?php echo $value['total'] ?></td>

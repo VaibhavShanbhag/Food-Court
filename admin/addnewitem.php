@@ -244,7 +244,7 @@
 
        move_uploaded_file($tempname, "../public/Food Images/$imagename");
 
-       $query = "INSERT INTO `food`(`image`, `name`, `type`, `category`, `description`, `price`) VALUES ('$imagename','$name','$type','$category','$desp','$price')";
+       $query = "INSERT INTO `food`(`image`, `food_name`, `type`, `category`, `description`, `price`) VALUES ('$imagename','$name','$type','$category','$desp','$price')";
        $run = mysqli_query($conn,$query);
 
        if ($run == true) 

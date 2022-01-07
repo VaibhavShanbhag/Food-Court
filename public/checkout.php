@@ -296,12 +296,12 @@
                 <table>
                     <?php
                         foreach ($_SESSION['cart'] as $key => $value) {
-                            $query = "SELECT `name` FROM `food` WHERE `food_id` = $value[food_id]";
+                            $query = "SELECT `food_name` FROM `food` WHERE `food_id` = $value[food_id]";
                             $run = mysqli_query($conn, $query);
                             $data = mysqli_fetch_assoc($run);
                             ?>
                             <tr>
-                                <td><?php echo $value['qty']?> * <?php echo $data['name']?></td>
+                                <td><?php echo $value['qty']?> * <?php echo $data['food_name']?></td>
                                 <td><?php echo $value['total']?></td>
                             </tr>
                     <?php

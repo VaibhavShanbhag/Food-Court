@@ -364,7 +364,7 @@
                     $subtotal = 0;
                     $remove = 0;
                     foreach ($_SESSION['cart'] as $key => $value) {
-                        $query = "SELECT `image`, `name`, `type`, `description`, `price` FROM `food` WHERE `food_id` = $value[food_id]";
+                        $query = "SELECT `image`, `food_name`, `type`, `description`, `price` FROM `food` WHERE `food_id` = $value[food_id]";
                         $run = mysqli_query($conn, $query);
                         $data = mysqli_fetch_assoc($run);
                         $amount = $data['price'] * $value['qty'];
@@ -376,7 +376,7 @@
                 <img src="Food Images/<?php echo $data['image']; ?>" alt="image" srcset="">
                 <div class="details">
                     <div class="title">
-                        <h3><?php echo $data['name']; ?>
+                        <h3><?php echo $data['food_name']; ?>
                         <?php
                             if($data['type'] == "veg"){
 

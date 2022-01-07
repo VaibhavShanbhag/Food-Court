@@ -354,7 +354,7 @@
                 <div class="food-details">
                     <div class="food-title-type">
                         <h3 class="title">
-                            <?php echo $data['name']; ?>
+                            <?php echo $data['food_name']; ?>
                             <?php
 
                                     if($data['type'] == "veg"){
