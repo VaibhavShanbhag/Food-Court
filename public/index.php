@@ -50,7 +50,7 @@
             <?php
                 if (isset(($_SESSION['custid']))) {
                     ?>
-                        <a href="" class="btn btn2"><i class="fa fa-user" aria-hidden="true">&nbsp;</i><?php echo $data['name'] ?></a>
+                        <a href="../customerlogin/custaccount.php" class="btn btn2"><i class="fa fa-user" aria-hidden="true">&nbsp;</i><?php echo $data['name'] ?></a>
                     <?php
                     ?>
                     <a href="logout.php" class="btn btn2"><i class="fas fa-sign-out-alt" aria-hidden="true">&nbsp;</i>Logout</a>
