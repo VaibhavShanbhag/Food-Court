@@ -207,9 +207,9 @@
 </style>
 <body>
     <header>
-        <a href="../public/index.php" class="btn">Home</a>
+        <a href="custaccount.php" class="btn">Back</a>
         <a href="#" class="logo"><i class="fas fa-utensils"></i>Food Court</a>
-        <a class="btn" href="#" style="background-color:red; border: .2rem solid red;">My Orders</a>
+        <a class="btn" href="custorders.php" style="background-color:red; border: .2rem solid red;">My Orders</a>
     </header>
     <div class="admin">
         <h1>EDIT INFORMATION</h1>

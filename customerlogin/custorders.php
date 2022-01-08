@@ -1,18 +1,12 @@
 <?php
+    include("../private/dbconnect.php");
     session_start();
-
-    if(isset($_SESSION['custid'])){
-        include('../private/dbconnect.php');
-        $cust_id = $_SESSION['custid'];
-        $query = "select * from `customer` where `cust_id` = $cust_id";
-        $run = mysqli_query($conn,$query);
-        $data = mysqli_fetch_assoc($run);
-    }
 ?>
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title><?php echo $data['name']; ?> | Food Court</title>
+    <title>Order Details | Food Court</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <style>
@@ -27,6 +21,8 @@
         margin: 0;
         padding: 0;
         box-sizing: border-box;
+        outline: none;
+        border: none;
         text-decoration: none;
         transition: all .2s linear;
         list-style: none;
@@ -52,16 +48,19 @@
         z-index: 1000;
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        /* justify-content: space-between; */
         background: #fff;
         padding: 2rem 9%;
         box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
+        text-align: center;
     }
 
     header .logo {
         font-size: 2.5rem;
         font-weight: bolder;
         color: #666;
+        text-decoration: none;
+        width: 81%;
     }
 
     header .logo i {
@@ -86,25 +85,25 @@
 
     .btn {
         display: inline-block;
-        padding: .8rem 3rem;
-        border: .2rem solid green;
+        padding: 0.8rem 3rem;
+        border: 0.2rem solid green;
         color: var(--red);
         cursor: pointer;
         font-size: 1.7rem;
-        border-radius: .5rem;
+        border-radius: 0.5rem;
         position: relative;
         overflow: hidden;
         z-index: 0;
         margin-top: 1rem;
         background-color: green;
-        color: white;
+        color: white;e;
     }
 
-    .btn:hover,
-    .btn2:hover {
+    .btn:hover {
         -moz-box-shadow: 3px 3px 5px 6px #ccc;
         -webkit-box-shadow: 3px 3px 5px 6px #ccc;
         box-shadow: 3px 3px 5px 6px #ccc;
+        color: white;
     }
 
     .admin {
@@ -122,33 +121,18 @@
         font-size: 23px;
     }
 
-    .container{
+    .container {
         display: flex;
         justify-content: center;
-        align-items: center;
         flex-direction: column;
-        height: auto;
-        background-color: lightblue;
-        margin: 30px 400px;
-        border: 2px solid lightblue;
-        border-radius: 20px;
-        padding: 20px 0;
+        align-items: center;
+        margin-top: 5rem;
     }
 
-    .container table{
-        margin-top: 20px;
-        font-size: 16px;
-        border-spacing: 4px;
-    }
-
-    .container .welcome{
-        font-size: 27px;
-    }
-    
     .btn2 {
         display: inline-block;
         text-align: center;
-        width: 100%;
+        width: 20%;
         padding: .8rem 3rem;
         border: .2rem solid #0cbcf7;
         cursor: pointer;
@@ -157,59 +141,77 @@
         position: relative;
         overflow: hidden;
         z-index: 0;
+        margin-top: 1.5rem;
         background-color: #0cbcf7;
         color: white;
         text-transform: uppercase;
     }
 
-    .tag{
-            padding: 10px;
-			font-weight: 400;
+    table {
+        border-collapse: collapse;
+        margin: 40px;
+        font-size: 15px;
     }
 
-    .data{
-            padding: 9px;
-			font-weight: 600;
-			font-size: 19px;
-			text-align: left;
+    table tr th {
+        color: white;
+        background-color: black;
     }
 
+    table tr td {
+        text-align: center;
+        border: 1px solid black;
+        padding: 20px;
+    }
+
+    table tr th {
+        padding: 10px;
+
+    }
 </style>
+
 <body>
     <header>
-        <a href="../public/index.php" class="btn">Home</a>
+        <a href="custaccount.php" class="btn">Back</a>
         <a href="#" class="logo"><i class="fas fa-utensils"></i>Food Court</a>
-        <a class="btn" href="custorders.php" style="background-color:red; border: .2rem solid red;">My Orders</a>
     </header>
     <div class="admin">
-        <h1>ACCOUNT INFORMATION</h1>
+        <h1>MY ORDERS</h1>
     </div>
-    <div class="container">
-        <h1 class="welcome">Welcome <span style="color: red;"><?php echo $data['name']; ?></span></h1>
     <table>
-                <tr>
-                    <td class="tag">Name: </td>
-                    <td class="data"><?php echo $data['name']; ?></td>
-                </tr>
-                <tr>
-                    <td class="tag">Mobile Number: </td>
-                    <td class="data"><?php echo $data['mobile_number']; ?></td>
-                </tr>
-                <tr>
-                    <td class="tag">Address: </td>
-                    <td class="data" width="300"><?php echo $data['address']; ?></td>
-                </tr>
-                <tr>
-                    <td class="tag">Email: </td>
-                    <td class="data"><?php echo $data['email']; ?></td>
-                </tr>
-                <tr>
-                    <td colspan="2" align="center">
-                        <br><a href="editinfo.php" class="btn2" style="margin-right: 75px;">Edit Information</a>
-                    </td>
-                </tr>
-        </table>
-    </div>
+        <tr>
+            <th style="width: 45px;">Order ID</th>
+            <th>Item Name</th>
+            <th>Price</th>
+            <th>Qty</th>
+            <th>Total</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Email</th>
+            <th>Date and Time</th>
+        </tr>
+        <?php
+            $sql = "select * from `order` inner join food on food.food_id = order.food_id inner join customer on customer.cust_id = order.cust_id where order.cust_id='{$_SESSION['custid']}'";
+            $run = mysqli_query($conn,$sql);
+            $row = mysqli_num_rows($run);   
+            while($data = mysqli_fetch_assoc($run)){
+                ?>
+        <tr>
+            <td><?php echo $data['order_id'] ?></td>
+            <td><?php echo $data['food_name'] ?></td>
+            <td><?php echo $data['price'] ?></td>
+            <td>x<span style="font-size: 15px;"><?php echo $data['quantity'] ?></span></td>
+            <td><?php echo $data['total_price'] ?></td>
+            <td><?php echo $data['name'] ?></td>
+            <td><?php echo $data['address'] ?></td>
+            <td><?php echo $data['email'] ?></td>
+            <td><?php echo $data['date_time'] ?></td>
+        </tr>
+        <?php
+            }
+        ?>
+
+    </table>
 </body>
 
 </html>

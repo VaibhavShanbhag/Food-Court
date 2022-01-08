@@ -142,7 +142,7 @@
 
     table{
             border-collapse: collapse;
-            margin: 40px auto;
+            margin: 40px 60px;
             font-size: 15px;
         }
         table tr th{
