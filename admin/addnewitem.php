@@ -165,10 +165,9 @@
         <a class="btn" href="../public/logout.php" style="background-color:red; border: .2rem solid red;">Logout</a>
     </header>
     <div class="admin">
-        <h1>WELCOME TO ADMIN DASHBOARD</h1>
+        <h1>ADD NEW ITEM</h1>
     </div>
     <div class="container">
-        <h1>ADD NEW ITEM</h1>
         <table>
             <form action="addnewitem.php" method="post" enctype="multipart/form-data">
                 <tr>
